@@ -9,13 +9,15 @@ int	main(int argc, char **argv)
 	struct sigaction	sa;
 	struct timespec		timeout;
 
-
 	pid_to_send = atoi(argv[1]);
 	timeout.tv_sec = 5;
 	timeout.tv_nsec = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGUSR1);
-	sigprocmask(SIG_SETMASK, &sa.sa_mask, NULL);
+	if (sigemptyset(&sa.sa_mask) || sigaddset(&sa.sa_mask, SIGUSR1)
+			|| sigprocmask(SIG_SETMASK, &sa.sa_mask, NULL))
+	{
+		perror("Failed to set the mask");
+		return (EXIT_FAILURE);
+	}
 	sa.sa_handler = SIG_IGN;
 	kill(pid_to_send, SIGUSR1);
 	if (sigtimedwait(&sa.sa_mask, &s_siginfo, &timeout) == -1)
@@ -30,7 +32,7 @@ int	main(int argc, char **argv)
 		pause();
 	*/
 	/*aqui*/
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /*

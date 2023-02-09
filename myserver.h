@@ -12,6 +12,7 @@
 # include <string.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <errno.h>
 
 
 #endif
