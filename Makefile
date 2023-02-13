@@ -1,21 +1,27 @@
-NAME = myserver
+SERVER_NAME = server 
+CLIENT_NAME = client
 
 CFLAGS = -Wall -Wextra -g
 
-SRCS = $(wildcard *.c)
+SERVER_SRCS = $(wildcard server_*.c)
+CLIENT_SRCS = $(wildcard client_*.c)
 
-all:	$(NAME)
+all:	$(SERVER_NAME) $(CLIENT_NAME)
 
-$(NAME):	$(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
-	@echo "myserver is ready to go online"
+$(SERVER_NAME):	$(SERVER_SRCS)
+	@$(CC) $(CFLAGS) $(SERVER_SRCS) -o $(SERVER_NAME)
+	@echo "Server ready to go online"
+
+$(CLIENT_NAME): $(CLIENT_SRCS)
+	@$(CC) $(CFLAGS) $(CLIENT_SRCS) -o $(CLIENT_NAME)
+	@echo "Client ready to go online"
 
 clean:
-	rm -f $(NAME) $(NAME).dSYM
-	@echo "myserver is cleansed"
+	@rm -rf $(SERVER_NAME) $(SERVER_NAME).dSYM $(CLIENT_NAME) $(CLIENT_NAME).dSYM
+	@echo "Myserver no longer available"
 
 t: all
-	./$(NAME)
+	./$(SERVER_NAME)
 
 re: clean all
 
